@@ -6,9 +6,9 @@ import pymysql
 class MjyySpider(scrapy.Spider):
 	name = 'tv'
 	allowed_domains = ['www.ziyuanpian.com']
-	start_urls = ['http://www.ziyuanpian.com/?m=vod-type-id-2.html']
+	start_urls = ['http://www.ziyuanpian.com/?m=vod-type-id-2-pg-3.html']
 	url='http://www.ziyuanpian.com/?m=vod-type-id-2-pg-{}.html'
-	page=1
+	page=3
 	def parse(self, response):
 		detail_url_list=response.xpath('//div[@class="xing_vb"]//li//a[contains(@href,"?m=vod-detail")]/@href').extract()
 		for detail_url in detail_url_list:
@@ -18,7 +18,7 @@ class MjyySpider(scrapy.Spider):
 			yield scrapy.Request(url=detail_url,callback=self.detail_parse,meta={'item':item})
 
 
-		if self.page<1:
+		if self.page<20:
 			self.page+=1
 			url=self.url.format(self.page)
 			yield scrapy.Request(url=url,callback=self.parse)
@@ -41,7 +41,7 @@ class MjyySpider(scrapy.Spider):
 		item['release_time']=response.xpath('//div[@class="vodInfo"]//div[@class="vodinfobox"]//li[7]/span/text()')[0].extract()
 		item['update_time']=response.xpath('//div[@class="vodInfo"]//div[@class="vodinfobox"]//li[9]/span/text()')[0].extract().split()[0]
 		try:
-			item['summary']=response.xpath('//div[4]/div[3]/div[2]/text()')[0].extract()
+			item['summary']=response.xpath('//div[4]/div[3]/div[2]/text()')[0].extract().replace('\xa0','').replace('\u3000','').replace(' ','').replace('\n','')
 		except Exception as e:
 			item['summary']='暂无。'
 		item['play_urls']=response.xpath('//div[4]/div[4]/div[2]/div/ul/li[contains(text(),"share")]/text()').extract()

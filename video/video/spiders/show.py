@@ -41,7 +41,7 @@ class MjyySpider(scrapy.Spider):
 		item['release_time']=response.xpath('//div[@class="vodInfo"]//div[@class="vodinfobox"]//li[7]/span/text()')[0].extract()
 		item['update_time']=response.xpath('//div[@class="vodInfo"]//div[@class="vodinfobox"]//li[9]/span/text()')[0].extract().split()[0]
 		try:
-			item['summary']=response.xpath('//div[4]/div[3]/div[2]/text()')[0].extract()
+			item['summary']=response.xpath('//div[4]/div[3]/div[2]/text()')[0].extract().replace('\xa0','').replace('\u3000','').replace(' ','').replace('\n','')
 		except Exception as e:
 			item['summary']='暂无。'
 		item['play_urls']=response.xpath('//div[4]/div[4]/div[2]/div/ul/li[contains(text(),"share")]/text()').extract()

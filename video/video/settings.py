@@ -73,11 +73,11 @@ ITEM_PIPELINES = {
    # 'video.pipelines.FuliMysqlPipeline': 305,
 }
 
-HOST = 'localhost'
+HOST = '182.61.47.90'
 PORT = 3306
 USER = 'root'
-PASSWD = '123456'
-DB = 'video'
+PASSWD = '314512'
+DB = 'api'
 CHARSET = 'utf8'
 
 # Enable and configure the AutoThrottle extension (disabled by default)

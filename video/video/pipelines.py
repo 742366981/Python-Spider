@@ -29,11 +29,11 @@ class MovieMysqlPipeline(object):
 	def process_item(self, item, spider):
 		sql='insert into movie (movie_img,movie_name,director,staring,movie_type,area,languages,release_time,update_time,summary,play_url) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);'
 		self.cursor=self.con.cursor()
-		try:
-			self.cursor.execute(sql,(item['movie_img'],item['movie_name'],item['director'],item['staring'],item['movie_type'],item['area'],item['languages'],item['release_time'],item['update_time'],item['summary'],item['play_url']))
-			self.con.commit()
-		except Exception as e:
-			self.con.rollback()
+		# try:
+		self.cursor.execute(sql,(item['movie_img'],item['movie_name'],item['director'],item['staring'],item['movie_type'],item['area'],item['languages'],item['release_time'],item['update_time'],item['summary'],item['play_url']))
+		self.con.commit()
+		# except Exception as e:
+			# self.con.rollback()
 		return item
 
 class TvMysqlPipeline(object):
@@ -58,11 +58,23 @@ class TvMysqlPipeline(object):
 		self.cursor=self.con.cursor()
 		try:
 			self.cursor.execute(sql_1,(item['tv_img'],item['tv_name'],item['director'],item['staring'],item['tv_type'],item['area'],item['languages'],item['release_time'],item['update_time'],item['summary']))
-			for play_url in play_urls:
-				num=play_url.split('$')[0]
-				play_url=play_url.split('$')[1]
-				self.cursor.execute(sql_2,(item['tv_name'],num,play_url))
 			self.con.commit()
+		except Exception as e:
+			self.con.rollback()
+		try:
+			try:
+				self.cursor.execute('delete from tvList where tv_name=%s',item['tv_name'])
+				for play_url in play_urls:
+					num=play_url.split('$')[0]
+					play_url=play_url.split('$')[1]
+					self.cursor.execute(sql_2,(item['tv_name'],num,play_url))
+				self.con.commit()
+			except Exception as e:
+				for play_url in play_urls:
+					num=play_url.split('$')[0]
+					play_url=play_url.split('$')[1]
+					self.cursor.execute(sql_2,(item['tv_name'],num,play_url))
+				self.con.commit()
 		except Exception as e:
 			self.con.rollback()
 		return item
@@ -89,11 +101,23 @@ class ShowMysqlPipeline(object):
 		self.cursor=self.con.cursor()
 		try:
 			self.cursor.execute(sql_1,(item['show_img'],item['show_name'],item['director'],item['staring'],item['show_type'],item['area'],item['languages'],item['release_time'],item['update_time'],item['summary']))
-			for play_url in play_urls:
-				num=play_url.split('$')[0]
-				play_url=play_url.split('$')[1]
-				self.cursor.execute(sql_2,(item['show_name'],num,play_url))
 			self.con.commit()
+		except Exception as e:
+			self.con.rollback()
+		try:
+			try:
+				self.cursor.execute('delete from showList where show_name=%s',item['show_name'])
+				for play_url in play_urls:
+					num=play_url.split('$')[0]
+					play_url=play_url.split('$')[1]
+					self.cursor.execute(sql_2,(item['show_name'],num,play_url))
+				self.con.commit()
+			except Exception as e:
+				for play_url in play_urls:
+					num=play_url.split('$')[0]
+					play_url=play_url.split('$')[1]
+					self.cursor.execute(sql_2,(item['show_name'],num,play_url))
+				self.con.commit()
 		except Exception as e:
 			self.con.rollback()
 		return item
@@ -120,11 +144,24 @@ class AnimationMysqlPipeline(object):
 		self.cursor=self.con.cursor()
 		try:
 			self.cursor.execute(sql_1,(item['animation_img'],item['animation_name'],item['director'],item['staring'],item['animation_type'],item['area'],item['languages'],item['release_time'],item['update_time'],item['summary']))
-			for play_url in play_urls:
-				num=play_url.split('$')[0]
-				play_url=play_url.split('$')[1]
-				self.cursor.execute(sql_2,(item['animation_name'],num,play_url))
+			
 			self.con.commit()
+		except Exception as e:
+			self.con.rollback()
+		try:
+			try:
+				self.cursor.execute('delete from animationList where animation_name=%s',item['animation_name'])
+				for play_url in play_urls:
+					num=play_url.split('$')[0]
+					play_url=play_url.split('$')[1]
+					self.cursor.execute(sql_2,(item['animation_name'],num,play_url))
+				self.con.commit()
+			except Exception as e:
+				for play_url in play_urls:
+					num=play_url.split('$')[0]
+					play_url=play_url.split('$')[1]
+					self.cursor.execute(sql_2,(item['animation_name'],num,play_url))
+				self.con.commit()
 		except Exception as e:
 			self.con.rollback()
 		return item
