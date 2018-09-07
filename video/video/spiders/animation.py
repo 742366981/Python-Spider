@@ -6,7 +6,7 @@ import pymysql
 class MjyySpider(scrapy.Spider):
 	name = 'animation'
 	allowed_domains = ['www.ziyuanpian.com']
-	start_urls = ['http://www.ziyuanpian.com/?m=vod-type-id-4.html']
+	start_urls = ['http://www.ziyuanpian.com/?m=vod-type-id-4-pg-1.html']
 	url='http://www.ziyuanpian.com/?m=vod-type-id-4-pg-{}.html'
 	page=1
 	def parse(self, response):

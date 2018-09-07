@@ -66,17 +66,17 @@ DOWNLOAD_DELAY = 1
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    # 'video.pipelines.VideoPipeline': 300,
-   'video.pipelines.MovieMysqlPipeline': 301,
+   # 'video.pipelines.MovieMysqlPipeline': 301,
    # 'video.pipelines.TvMysqlPipeline': 302,
    # 'video.pipelines.ShowMysqlPipeline': 303,
    # 'video.pipelines.AnimationMysqlPipeline': 304,
-   # 'video.pipelines.FuliMysqlPipeline': 305,
+   'video.pipelines.FuliMysqlPipeline': 305,
 }
 
-HOST = '182.61.47.90'
+HOST = 'localhost'
 PORT = 3306
 USER = 'root'
-PASSWD = '314512'
+PASSWD = '123456'
 DB = 'api'
 CHARSET = 'utf8'
 
